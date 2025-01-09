@@ -1,1 +1,74 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengembalian Dompet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #status {
+            margin-top: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pengembalian Dompet</h1>
+        <p>Jika Anda menemukan dompet ini, mohon kembalikan ke pemiliknya.</p>
+        <p>Klik tombol di bawah untuk mengaktifkan GPS dan mencatat lokasi Anda.</p>
+        <button id="enableGPS">Aktifkan GPS</button>
+        <p id="status">Status lokasi akan muncul di sini.</p>
+    </div>
+
+    <script>
+        const button = document.getElementById('enableGPS');
+        const status = document.getElementById('status');
+
+        button.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                status.textContent = 'Mencari lokasi...';
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        status.textContent = `Lokasi Anda: Lat ${latitude}, Lon ${longitude}`;
+                    },
+                    (error) => {
+                        status.textContent = `Gagal mendapatkan lokasi: ${error.message}`;
+                    }
+                );
+            } else {
+                status.textContent = 'Perangkat Anda tidak mendukung GPS.';
+            }
+        });
+    </script>
+</body>
+</html>
